@@ -39,7 +39,7 @@ ytdlopts = {
 }
 
 ffmpegopts = {
-    'before_options': '-nostdin',
+    'before_options': '-nostdin, -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
     'options': '-vn'
 }
 
@@ -280,7 +280,7 @@ class Music(commands.Cog):
 
         # If download is False, source will be a dict which will be used later to regather the stream.
         # If download is True, source will be a discord.FFmpegPCMAudio with a VolumeTransformer.
-        source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop, download=False)
+        source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop, download=True)
 
         await player.queue.put(source)
 
@@ -288,19 +288,21 @@ class Music(commands.Cog):
     async def pause_(self, ctx):
         """Pause the currently playing song."""
         vc = ctx.voice_client
+        #search: str
 
         if not vc or not vc.is_playing():
             return await ctx.send('I am not currently playing anything!', delete_after=20)
         elif vc.is_paused():
             return
 
-        try:
+        """try:
             async with timeout(2):
                 source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop, download=True)
         except:
-            source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop, download=True)
-        #vc.pause()
-        #await ctx.send(f'**`{ctx.author}`**: Paused the song!')
+            source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop, download=True)"""
+        
+        vc.pause()
+        await ctx.send(f'**`{ctx.author}`**: Paused the song!')
 
     @commands.command(name='resume')
     async def resume_(self, ctx):
