@@ -3,23 +3,23 @@ import discord
 from utils import default
 from discord.ext import commands
 
-class Discord_Info(commands.Cog):
+class test(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.config = default.get("config.json")
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def add(self, ctx, left: int, right: int):
-        #self.left = left
-        #self.right = right
+        """Adds two numbers"""
+        self.left = left
+        self.right = right
         await ctx.send(left + right)
 
-    @commands.command()
-    async def welcome(self, ctx):
-        await ctx.send("Welcome!")
+    @commands.command(hidden=True)
+    async def hello(self, ctx):
+        """Says hello to you"""
+        await ctx.send(f"Hello there **{ctx.author.nick}** ")
 
-    
-    
 
 def setup(bot):
-    bot.add_cog(Discord_Info(bot))
+    bot.add_cog(test(bot))

@@ -12,16 +12,16 @@ class Information(commands.Cog):
     @commands.command()
     async def ping(self, ctx):
         """ Pong! """
-        before = time.monotonic()
+        before = time.perf_counter()
         before_ws = int(round(self.bot.latency * 1000, 1))
-        message = await ctx.send("🏓 Pong")
-        ping = (time.monotonic() - before) * 1000
-        await message.edit(content=f"🏓 WS: {before_ws}ms  |  REST: {int(ping)}ms")
+        message = await ctx.send("🏓 Pong!")
+        ping = (time.perf_counter - before) * 1000
+        await message.edit(content=f"🏓 WS: {before_ws}ms  |  Ping: {int(ping)}ms")
 
     @commands.command()
     @commands.guild_only()
-    async def user(self, ctx, *, user: discord.Member = None):
-        """ Get user information """
+    async def profile(self, ctx, *, user: discord.Member = None):
+        """ Gets info about a user """
         user = user or ctx.author
 
         show_roles = ', '.join(
@@ -42,8 +42,8 @@ class Information(commands.Cog):
 
     @commands.group()
     @commands.guild_only()
-    async def server(self, ctx):
-        """ Check info about current server """
+    async def serverinfo(self, ctx):
+        """ Checks info about current server """
         if ctx.invoked_subcommand is None:
             findbots = sum(1 for member in ctx.guild.members if member.bot)
 
@@ -63,5 +63,10 @@ class Information(commands.Cog):
             embed.add_field(name="Created", value=default.date(ctx.guild.created_at), inline=True)
             await ctx.send(content=f"ℹ information about **{ctx.guild.name}**", embed=embed)
 
+    @commands.command()
+    async def source(self, ctx):
+        """ Sends a link to repository on GitHub """
+        await ctx.send("Oops, the repository is currently private. Please try again later.")
+
 def setup(bot):
-    bot.add_cog(Information(bot))    
+    bot.add_cog(Information(bot))
