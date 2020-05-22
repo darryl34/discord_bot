@@ -112,7 +112,7 @@ class Tictactoe(commands.Cog):
 
     @commands.group(aliases=['ttt'], invoke_without_command=True)
     @commands.guild_only()
-    async def tictactoe(self, ctx, *, option: int):
+    async def tictactoe(self, ctx, *, option: str):
         """ Use "{prefix}tictactoe start @player2" to start """
         player = ctx.message.author
         board = self.boards.get(ctx.message.guild.id)
@@ -218,7 +218,7 @@ class Tictactoe(commands.Cog):
 
         # We don't need to do anything weird with assigning x_player to something
         # it is already a member object, just use it
-        fmt += "I have decided at random, and {} is going to be x's this game. It is {} turn first! " \
+        fmt += "I have decided at random, and {} is going to be x's this game. It is their turn first! " \
             "Use the {}tictactoe command, and a position, to choose where you want to play" \
             .format(x_player.display_name, ctx.prefix)
         await ctx.send(fmt)

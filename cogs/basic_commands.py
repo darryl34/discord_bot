@@ -15,9 +15,9 @@ class test(commands.Cog):
         self.right = right
         await ctx.send(left + right)
 
-    @commands.command(hidden=True)
+    @commands.command()
     async def hello(self, ctx):
-        """Says hello to you"""
+        """ Hello """
         await ctx.send(f"Hello there **{ctx.author.nick}** ")
 
 
